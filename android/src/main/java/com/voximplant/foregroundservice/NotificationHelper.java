@@ -82,7 +82,8 @@ class NotificationHelper {
         }
         Intent notificationIntent = new Intent(context, mainActivityClass);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-
+        // [mattveraldi] add flags to not kill the activity
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         Notification.Builder notificationBuilder;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -131,7 +132,10 @@ class NotificationHelper {
             notificationBuilder.setSmallIcon(getResourceIdForResourceName(context, iconName));
         }
 
-        return notificationBuilder.build();
+        Notification notification = notificationBuilder.build();
+        // [mattveraldi] add flags to not kill the activity
+        notification.flags = Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
+        return notification;
     }
 
     private Class getMainActivityClass(Context context) {

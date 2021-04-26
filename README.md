@@ -25,7 +25,7 @@ See [the Android official documentation](https://developer.android.com/guide/com
         ```
     2. Add VIForegroundService as a service to the application's `AndroidManifest.xml`:
         ```
-        <service android:name="com.voximplant.foregroundservice.VIForegroundService"> </service>
+        <service android:name="com.voximplant.foregroundservice.VIForegroundService" android:stopWithTask="true"> </service>
 
 - React Native <= 0.59
 
@@ -37,7 +37,7 @@ See [the Android official documentation](https://developer.android.com/guide/com
         ```
     2. Add VIForegroundService as a service to the application's `AndroidManifest.xml`:
         ```
-        <service android:name="com.voximplant.foregroundservice.VIForegroundService"> </service>
+        <service android:name="com.voximplant.foregroundservice.VIForegroundService" android:stopWithTask="true"> </service>
         ```
 
 ### Manual installation (Android only, React Native <= 0.59)

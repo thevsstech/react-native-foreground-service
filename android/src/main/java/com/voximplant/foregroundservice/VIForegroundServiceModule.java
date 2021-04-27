@@ -76,9 +76,9 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        if(notificationConfig.hasKey("killOnDestroy")) {
+    /*     if(notificationConfig.hasKey("killOnDestroy")) {
             this.killOnDestroy = notificationConfig.getBoolean("killOnDestroy");
-        }
+        } */
 
         Intent intent = new Intent(getReactApplicationContext(), VIForegroundService.class);
         intent.setAction(Constants.ACTION_FOREGROUND_SERVICE_START);

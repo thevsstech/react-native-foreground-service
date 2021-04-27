@@ -121,11 +121,11 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule implem
 
     @Override
     public void onHostDestroy() {
-        if(this.killOnDestroy) {
+      /*   if(this.killOnDestroy) {
             Intent intent = new Intent(getReactApplicationContext(), VIForegroundService.class);
             intent.setAction(Constants.ACTION_FOREGROUND_SERVICE_STOP);
             getReactApplicationContext().stopService(intent);
-        }
+        } */
 
     }
 }

@@ -127,7 +127,7 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule implem
     @Override
     public void onHostDestroy() {
         if(this.killOnDestroy) {
-          stopService();
+          stopService(null);
         }
 
     }

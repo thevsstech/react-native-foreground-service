@@ -26,8 +26,6 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
     public VIForegroundServiceModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-
-        reactContext.addLifecycleEventListener(this);
     }
 
     @Override

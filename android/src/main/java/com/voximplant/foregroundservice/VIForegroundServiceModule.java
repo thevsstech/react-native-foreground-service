@@ -7,7 +7,6 @@ package com.voximplant.foregroundservice;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
-import com.facebook.react.bridge.LifecycleEventListener;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -20,16 +19,14 @@ import static com.voximplant.foregroundservice.Constants.ERROR_INVALID_CONFIG;
 import static com.voximplant.foregroundservice.Constants.ERROR_SERVICE_ERROR;
 import static com.voximplant.foregroundservice.Constants.NOTIFICATION_CONFIG;
 
-public class VIForegroundServiceModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
-    private boolean killOnDestroy;
 
     public VIForegroundServiceModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
 
-        this.killOnDestroy = false;
         reactContext.addLifecycleEventListener(this);
     }
 
@@ -106,26 +103,5 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule implem
         } else {
             promise.reject(ERROR_SERVICE_ERROR, "VIForegroundService: Foreground service failed to stop");
         }
-    }
-
-
-    @Override
-    public void onHostResume() {
-        // Activity `onResume`
-    }
-
-    @Override
-    public void onHostPause() {
-        // Activity `onPause`
-    }
-
-    @Override
-    public void onHostDestroy() {
-      /*   if(this.killOnDestroy) {
-            Intent intent = new Intent(getReactApplicationContext(), VIForegroundService.class);
-            intent.setAction(Constants.ACTION_FOREGROUND_SERVICE_STOP);
-            getReactApplicationContext().stopService(intent);
-        } */
-
     }
 }

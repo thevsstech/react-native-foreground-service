@@ -37,7 +37,7 @@ public class VIForegroundService extends Service {
                 stopSelf();
             }
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
 
     }
 

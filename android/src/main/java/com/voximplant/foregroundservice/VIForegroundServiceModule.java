@@ -14,19 +14,25 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.LifecycleEventListener;
 
 import static com.voximplant.foregroundservice.Constants.ERROR_INVALID_CONFIG;
 import static com.voximplant.foregroundservice.Constants.ERROR_SERVICE_ERROR;
 import static com.voximplant.foregroundservice.Constants.NOTIFICATION_CONFIG;
 
-public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
+public class VIForegroundServiceModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
     private final ReactApplicationContext reactContext;
+    private boolean killOnDestroy;
 
     public VIForegroundServiceModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+
+        this.killOnDestroy = false;
+        reactContext.addLifecycleEventListener(this);
     }
+
 
     @Override
     public String getName() {
@@ -76,9 +82,9 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
             return;
         }
 
-    /*     if(notificationConfig.hasKey("killOnDestroy")) {
+         if(notificationConfig.hasKey("killOnDestroy")) {
             this.killOnDestroy = notificationConfig.getBoolean("killOnDestroy");
-        } */
+        }
 
         Intent intent = new Intent(getReactApplicationContext(), VIForegroundService.class);
         intent.setAction(Constants.ACTION_FOREGROUND_SERVICE_START);
@@ -96,10 +102,33 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
         Intent intent = new Intent(getReactApplicationContext(), VIForegroundService.class);
         intent.setAction(Constants.ACTION_FOREGROUND_SERVICE_STOP);
         boolean stopped = getReactApplicationContext().stopService(intent);
+
+        if (promise == null) {
+            return;
+        }
+
         if (stopped) {
             promise.resolve(null);
         } else {
             promise.reject(ERROR_SERVICE_ERROR, "VIForegroundService: Foreground service failed to stop");
         }
+    }
+
+    @Override
+    public void onHostResume() {
+        // Activity `onResume`
+    }
+
+    @Override
+    public void onHostPause() {
+        // Activity `onPause`
+    }
+
+    @Override
+    public void onHostDestroy() {
+        if(this.killOnDestroy) {
+          stopService();
+        }
+
     }
 }
